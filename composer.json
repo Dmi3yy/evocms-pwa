@@ -1,0 +1,26 @@
+{
+    "name": "dmi3yy/evocms-pwa",
+    "license": "MIT",
+    "description": "Evolution CMS 2.0 Progressive Web App package",
+    "type": "package",
+    "authors": [
+        {
+            "name": "Dmi3yy",
+            "email": "dmi3yy@gmail.com"
+        }
+    ],
+    "require": {
+    },
+    "autoload": {
+        "psr-4": {
+            "EvolutionCMS\\Dmi3yy\\Pwa\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "EvolutionCMS\\Dmi3yy\\Pwa\\PwaServiceProvider"
+            ]
+        }
+    }
+}
