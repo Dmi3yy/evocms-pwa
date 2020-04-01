@@ -12,3 +12,11 @@ Evolution CMS 2.0 Progressive Web App package
 `php artisan package:installrequire dmi3yy/evocms-pwa '*'` в папке **core/**
 
 `php artisan pwa:install`
+
+#TODO
+- генерация manifest.json 
+- генерация serviceworker.js
+- генерация @evopwa
+- очистка кеша и перегенерация 
+- настройка прекеша файлов 
+- настройка прекеша страниц 

@@ -22,6 +22,21 @@ class PwaServiceProvider extends ServiceProvider
 //        $this->loadPluginsFrom(
 //            dirname(__DIR__) . '/plugins/'
 //        );
-        //echo 'test-pwa';
+
+
+        if(isset($_GET['q'])) {
+            $request['request'] = $_REQUEST;
+            $q = $request['request']['q'];
+            unset($request['request']['q']);
+
+            $routes = [
+                'evo-manifest.json' => ['EvolutionCMS\Dmi3yy\Pwa\Controllers\PwaController', 'manifest'],
+                'evo-serviceworker.js' => ['EvolutionCMS\Dmi3yy\Pwa\Controllers\PwaController', 'serviceworker'],
+            ];
+            if (array_key_exists($q, $routes)) {
+                call_user_func_array([new $routes[$q][0], $routes[$q][1]], $request);
+            }
+        }
+
     }
 }

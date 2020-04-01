@@ -40,7 +40,7 @@ class PwaCommand extends Command
     /**
      * @var string
      */
-    public $fileNameBladeDirective = 'pwa.php';
+    public $fileNameBladeDirective = 'evopwa.php';
 
     /**
      * SeriousCustomTemplateCommand constructor.
@@ -69,7 +69,7 @@ class PwaCommand extends Command
             if (!File::isDirectory($this->directory)) {
                 File::makeDirectory($this->directory, 0755, true);
             }
-            File::put($this->fileName, "return [
+            File::put($this->fileName, "<?php return [
                 'pwa_name' => '".$pwa_name."',
                 'image' => 'assets/images/evo-logo.png'
             ];");
@@ -77,7 +77,7 @@ class PwaCommand extends Command
             if (!File::isDirectory($this->directoryBladeDirective)) {
                 File::makeDirectory($this->directoryBladeDirective, 0755, true);
             }
-            File::put($this->fileNameBladeDirective, '<?php return [EvolutionCMS\Dmi3yy\Pwa\Controllers\PwaController::class, "pwa"];');
+            File::put($this->fileNameBladeDirective, '<?php return [EvolutionCMS\Dmi3yy\Pwa\Controllers\PwaController::class, "evopwa"];');
         }
     }
 
