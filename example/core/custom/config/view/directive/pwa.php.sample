@@ -1,0 +1,2 @@
+<?php return [EvolutionCMS\Dmi3yy\Pwa\Controllers\PwaController::class, 'pwa'];
+

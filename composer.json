@@ -20,6 +20,9 @@
         "laravel": {
             "providers": [
                 "EvolutionCMS\\Dmi3yy\\Pwa\\PwaServiceProvider"
+            ],
+            "commands": [
+                {"pwa:install": []}
             ]
         }
     }

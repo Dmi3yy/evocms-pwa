@@ -1,0 +1,4 @@
+<?php  return [
+    'pwa_name' => 'Evolution CMS PWA',
+    'image' => 'assets/images/evo-logo.png'
+];

@@ -11,6 +11,6 @@ class PwaServiceProvider extends ServiceProvider
 //        $this->loadPluginsFrom(
 //            dirname(__DIR__) . '/plugins/'
 //        );
-        echo 'test-pwa';
+        //echo 'test-pwa';
     }
 }
