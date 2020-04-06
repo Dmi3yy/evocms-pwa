@@ -66,12 +66,29 @@ class PwaCommand extends Command
         }
         if (strtolower($name) == 'y') {
             $pwa_name = $this->ask('Please enter PWA name? (Like: Site_Name)');
+            $short_name = $this->ask('Please enter Short PWA name? (Like: Site_Name)');
             if (!File::isDirectory($this->directory)) {
                 File::makeDirectory($this->directory, 0755, true);
             }
             File::put($this->fileName, "<?php return [
-                'pwa_name' => '".$pwa_name."',
-                'image' => 'assets/images/evo-logo.png'
+                'name' => '".$pwa_name."',
+                'short_name' => '".$short_name."',
+                'apple-touch-icon' => '/assets/images/evo-logo.png',
+                'theme_color' => '#000000',
+                'background_color' => '#ffffff',
+                'display' => 'standalone',
+                'scope' => '/',
+                'start_url' => '/',
+                'icons' => [
+                    [
+                        'src'=> '/assets/images/evo-logo.png',
+                        'sizes'=>'192x192'
+                    ],
+                    [
+                        'src'=> '/assets/images/evo-logo.png',
+                        'sizes'=>'512x512'
+                    ]
+                ] 
             ];");
 
             if (!File::isDirectory($this->directoryBladeDirective)) {
