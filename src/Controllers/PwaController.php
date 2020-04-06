@@ -1,6 +1,7 @@
 <?php
 namespace EvolutionCMS\Dmi3yy\Pwa\Controllers;
 
+
 class PwaController
 {
     public $evo;
@@ -8,6 +9,7 @@ class PwaController
     public function __construct()
     {
         $this->evo = evolutionCMS();
+        $this->evo->getSettings();
     }
 
     /**
@@ -57,18 +59,36 @@ class PwaController
 
     public function serviceworker()
     {
+        print_r($this->evo->getConfig('pwaSettings'));
+        $config = $this->evo->getConfig('pwaSettings');
+
+        $config['startPage'] = $this->evo->makeUrl($config['startPageId']);
+        $config['offlinePage'] = $this->evo->makeUrl($config['offlinePageId']);
+        $config['cacheDocs']  = '';
+        if($config['cacheDocsIds'] != ''){
+            $ids = explode(',', $config['cacheDocsIds']);
+            foreach( $ids as $docid ){
+                $config['cacheDocs']  .=  "'".$this->evo->makeUrl($docid)."',";
+            }
+        }
+
+
+
+
         $this->ResponseJS("'use strict';
 
             /**
              * Service Worker of Evolution CMS 2 PWA
              */
              
-            const cacheName = 'evopwa';//+ new Date().getTime();
-            const startPage = '/';
-            const offlinePage = '/offline.html';
+            const cacheName = 'evopwa".$this->evo->recentUpdate."';//+ new Date().getTime();
+            const startPage = '".$config['startPage']."';
+            const offlinePage = '".$config['offlinePage']."';
             const filesToCache = [
                 startPage, 
                 offlinePage, 
+                ".$config['cacheDocs']." 
+                
                 '/assets/images/evo-logo.png',
                 '/blog.html',
                 '/theme/css/bulma.css',

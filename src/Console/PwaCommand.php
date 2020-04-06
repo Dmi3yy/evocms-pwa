@@ -35,6 +35,11 @@ class PwaCommand extends Command
     /**
      * @var string
      */
+    public $fileNameSettings = 'pwaSettings.php';
+
+    /**
+     * @var string
+     */
     public $directoryBladeDirective = EVO_CORE_PATH . 'custom/config/view/directive/';
 
     /**
@@ -89,6 +94,14 @@ class PwaCommand extends Command
                         'sizes'=>'512x512'
                     ]
                 ] 
+            ];");
+
+            File::put($this->fileNameSettings, "<?php return [
+                'startPageId' => '1',
+                'offlinePageId' => '1',
+                'cacheDocsIds' => '',
+                'cacheFolders' => ['/theme/'],
+                'cacheFiles' => ['/assets/images/evo-logo.png'], 
             ];");
 
             if (!File::isDirectory($this->directoryBladeDirective)) {

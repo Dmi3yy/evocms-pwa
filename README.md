@@ -7,19 +7,12 @@ Evolution CMS 2.0 Progressive Web App package
 
 `php artisan pwa:install`
 
-## Установка  
 
-`php artisan package:installrequire dmi3yy/evocms-pwa '*'` в папке **core/**
-
-`php artisan pwa:install`
-
-
-
-## Настройка:
-1. Редактируем фаил: **/core/custom/config/cms/settings/pwa.php**
+## Settings:
+1. Edit config in file: **/core/custom/config/cms/settings/pwa.php**
 ```
-     'name' => 'Название проекта',
-     'short_name' => 'Кратное название проекта',
+     'name' => 'Project name',
+     'short_name' => 'Short project name',
      'apple-touch-icon' => '/assets/images/evo-logo.png',
      'theme_color' => '#000000',
      'background_color' => '#ffffff',
@@ -38,7 +31,7 @@ Evolution CMS 2.0 Progressive Web App package
      ] 
 ```
 
-2. В head вставляем @evopwa(), или можно вставить следующий код: 
+2. In head add: **@evopwa()**, or add this code: 
 ```
 <link rel="manifest" href="/evo-manifest.json">
 <meta name="theme-color" content="#000000"> 
@@ -59,9 +52,7 @@ Evolution CMS 2.0 Progressive Web App package
 
 
 #TODO
-- генерация manifest.json 
 - генерация serviceworker.js
-- генерация @evopwa
 - очистка кеша и перегенерация 
 - настройка прекеша файлов 
 - настройка прекеша страниц 
