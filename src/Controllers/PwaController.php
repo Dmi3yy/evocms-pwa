@@ -1,6 +1,7 @@
 <?php
 namespace EvolutionCMS\Dmi3yy\Pwa\Controllers;
 
+use Illuminate\Support\Facades\File;
 
 class PwaController
 {
@@ -53,14 +54,15 @@ class PwaController
 
     public function manifest()
     {
-        $this->ResponseJSON($this->evo->getConfig('pwa'));
+        $manifest = $this->evo->getConfig('pwa');
+        unset($manifest['serviceWorkerSettings']);
+        $this->ResponseJSON($manifest);
     }
 
 
     public function serviceworker()
     {
-        print_r($this->evo->getConfig('pwaSettings'));
-        $config = $this->evo->getConfig('pwaSettings');
+        $config = $this->evo->getConfig('pwa')['serviceWorkerSettings'];
 
         $config['startPage'] = $this->evo->makeUrl($config['startPageId']);
         $config['offlinePage'] = $this->evo->makeUrl($config['offlinePageId']);
@@ -72,33 +74,36 @@ class PwaController
             }
         }
 
+        $config['cacheFilesRendered']  = '';
+        if(is_array($config['cacheFiles'])){
+            foreach($config['cacheFiles'] as $file){
+                if(File::isFile(MODX_BASE_PATH.$file)){
+                    $config['cacheFilesRendered'] .= "'".$file."',";
+                }else{
+                    if(File::isDirectory(MODX_BASE_PATH.$file)){
+                        $dir = new \RecursiveDirectoryIterator(MODX_BASE_PATH . $file);
+                        foreach (new \RecursiveIteratorIterator($dir) as $filePath=>$obj) {
+                            $fileName = pathinfo($filePath, PATHINFO_BASENAME);
+                            if($fileName != "." && $fileName != "..") {
+                                $filePath =  str_replace(MODX_BASE_PATH, "/", $filePath);
+                                $config['cacheFilesRendered'] .= "'".$filePath."',";
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
-
-
-        $this->ResponseJS("'use strict';
-
-            /**
-             * Service Worker of Evolution CMS 2 PWA
-             */
-             
-            const cacheName = 'evopwa".$this->evo->recentUpdate."';//+ new Date().getTime();
+        $serviceWorker = "
+            'use strict';
+            const cacheName = 'evopwa';
             const startPage = '".$config['startPage']."';
             const offlinePage = '".$config['offlinePage']."';
             const filesToCache = [
                 startPage, 
                 offlinePage, 
                 ".$config['cacheDocs']." 
-                
-                '/assets/images/evo-logo.png',
-                '/blog.html',
-                '/theme/css/bulma.css',
-                '/theme/css/jquery-ui.css',
-                'https://use.fontawesome.com/releases/v5.6.3/css/all.css',
-                '/theme/css/style.css',
-                '/theme/images/logo.png',
-                '/theme/js/jquery-3.3.1.min.js',
-                '/theme/js/jquery-ui.min.js',
-                '/theme/js/scripts.js',
+                ".$config['cacheFilesRendered']."
             ];
             const neverCacheUrls = [/\/manager/];
             
@@ -193,7 +198,10 @@ class PwaController
                     return false;
                 }
                 return true;
-            }");
+            }";
+
+            //File::put(MODX_BASE_PATH.'evo-serviceworker.js', $serviceWorker);
+            $this->ResponseJS($serviceWorker);
     }
 
 
