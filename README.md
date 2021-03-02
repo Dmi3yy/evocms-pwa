@@ -8,6 +8,7 @@ Evolution CMS 2.0 Progressive Web App package
 `php artisan pwa:install`
 
 
+
 ## Settings:
 1. Edit config in file: **/core/custom/config/cms/settings/pwa.php**
 
